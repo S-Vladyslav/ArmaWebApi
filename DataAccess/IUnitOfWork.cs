@@ -2,7 +2,7 @@
 
 namespace DataAccess
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         IArticleRepository ArticleRepository { get; }
 
