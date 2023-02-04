@@ -1,7 +1,10 @@
-﻿namespace Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain
 {
     public class ArticleToApprove
     {
+        [Key]
         public int Id { get; set; }
 
         public string Title { get; set; }
@@ -14,6 +17,6 @@
 
         public int AuthorId { get; set; }
 
-        public virtual User Author { get; set; }
+        //public virtual User Author { get; set; }
     }
 }

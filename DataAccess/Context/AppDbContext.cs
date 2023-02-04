@@ -10,8 +10,8 @@ namespace DataAccess.Context
             Database.EnsureCreated();
         }
 
-        DbSet<Article> Articles;
-        DbSet<ArticleToApprove> ArticlesToApprove;
-        DbSet<User> Users;
+        DbSet<Article> Articles { get; set; }
+        DbSet<ArticleToApprove> ArticlesToApprove { get; set; }
+        DbSet<User> Users { get; set; }
     }
 }

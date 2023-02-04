@@ -16,6 +16,7 @@ namespace DataAccess.UnitOfWorks
             _appDbContext = appDBContext;
 
             ArticleRepository = new ArticleRepository(_appDbContext);
+            ArticleToApproveRepository = new ArticleToApproveRepository(_appDbContext);
         }
 
         public int Complete()
