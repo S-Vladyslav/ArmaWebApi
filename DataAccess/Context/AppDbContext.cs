@@ -1,7 +1,7 @@
-﻿using Domain.Articles;
+﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess
+namespace DataAccess.Context
 {
     public class AppDBContext : DbContext
     {
@@ -11,5 +11,7 @@ namespace DataAccess
         }
 
         DbSet<Article> Articles;
+        DbSet<ArticleToApprove> ArticlesToApprove;
+        DbSet<User> Users;
     }
 }
