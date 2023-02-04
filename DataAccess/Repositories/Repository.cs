@@ -1,4 +1,5 @@
-﻿using DataAccess.Interfaces;
+﻿using DataAccess.Context;
+using DataAccess.Repositories.Abstraction;
 
 namespace DataAccess.Repositories
 {

@@ -1,13 +1,15 @@
-﻿using DataAccess.Interfaces;
+﻿using DataAccess.Context;
 using DataAccess.Repositories;
+using DataAccess.Repositories.Abstraction;
 
-namespace DataAccess
+namespace DataAccess.UnitOfWorks
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDBContext _appDbContext;
 
         public IArticleRepository ArticleRepository { get; private set; }
+        public IArticleToApproveRepository ArticleToApproveRepository { get; private set; }
 
         public UnitOfWork(AppDBContext appDBContext)
         {

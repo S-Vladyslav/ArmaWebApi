@@ -1,6 +1,6 @@
 ﻿using Domain;
 
-namespace DataAccess.Interfaces
+namespace DataAccess.Repositories.Abstraction
 {
     public interface IArticleRepository : IRepository<Article>
     {

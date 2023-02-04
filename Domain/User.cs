@@ -10,7 +10,6 @@
 
         public string CreationDate { get; set; }
 
-
         public virtual ICollection<Article> Articles { get; set; }
     } 
 }
