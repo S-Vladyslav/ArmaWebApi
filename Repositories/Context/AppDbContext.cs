@@ -1,7 +1,7 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Context
+namespace Repositories.Context
 {
     public class AppDBContext : DbContext
     {

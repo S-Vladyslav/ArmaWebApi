@@ -1,7 +1,7 @@
-﻿using DataAccess;
-using DataAccess.Context;
-using DataAccess.UnitOfWorks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Repositories.Abstraction;
+using Repositories.Abstraction.UnitOfWorks;
+using Repositories.Context;
 
 namespace Repositories.UnitOfWorks
 {

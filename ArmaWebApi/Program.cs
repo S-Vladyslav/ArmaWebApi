@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
+using Repositories.Abstraction;
 using Repositories.UnitOfWorks;
 using System.Text;
 
@@ -26,7 +26,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 #endregion
 
 #region Repositories
-//builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
+builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
 #endregion
 
 

@@ -1,7 +1,7 @@
-﻿using DataAccess.Context;
-using DataAccess.Repositories.Abstraction;
+﻿using Repositories.Abstraction;
+using Repositories.Context;
 
-namespace DataAccess.Repositories
+namespace Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {

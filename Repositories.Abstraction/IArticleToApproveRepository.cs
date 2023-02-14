@@ -1,6 +1,6 @@
 ﻿using Domain;
 
-namespace DataAccess.Repositories.Abstraction
+namespace Repositories.Abstraction
 {
     public interface IArticleToApproveRepository : IRepository<ArticleToApprove>
     {

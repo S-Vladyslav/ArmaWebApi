@@ -1,4 +1,4 @@
-﻿namespace DataAccess.Repositories.Abstraction
+﻿namespace Repositories.Abstraction
 {
     public interface IRepository <TEntity> where TEntity : class
     {
