@@ -1,8 +1,9 @@
-﻿using DataAccess.Context;
+﻿using DataAccess;
+using DataAccess.Context;
 using DataAccess.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess
+namespace Repositories.UnitOfWorks
 {
     public class UnitOfWorkFactory : IUnitOfWorkFactory
     {

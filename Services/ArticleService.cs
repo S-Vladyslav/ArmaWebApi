@@ -1,14 +1,15 @@
 ﻿using Domain;
+using Services.Abstraction;
 
 namespace DataAccess.Services
 {
-    public class ArticleService
+    public class ArticleService : IArticleService
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
 
-        public ArticleService()//IUnitOfWorkFactory unitOfWorkFactory)
+        public ArticleService(IUnitOfWorkFactory unitOfWorkFactory)//IUnitOfWorkFactory unitOfWorkFactory)
         {
-            _unitOfWorkFactory = new UnitOfWorkFactory();//unitOfWorkFactory;
+            _unitOfWorkFactory = unitOfWorkFactory;//unitOfWorkFactory;
         }
 
         private string _connectionString = "Data Source=localhost;Initial Catalog=ArmaGuidesDev;Integrated Security=True;Trust Server Certificate=true";

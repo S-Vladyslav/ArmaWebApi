@@ -1,7 +1,7 @@
-﻿using DataAccess.Services;
-using Domain;
+﻿using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Services.Abstraction;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,11 +11,11 @@ namespace ArmaWebApi.Controllers
     [ApiController]
     public class ArticlesToApproveController : ControllerBase
     {
-        private ArticleService _articleService;
+        private IArticleService _articleService;
 
-        public ArticlesToApproveController()
+        public ArticlesToApproveController(IArticleService articleService)
         {
-            _articleService = new ArticleService();
+            _articleService = articleService;
         }
 
         // GET api/<ArticlesToApproveController>/5
