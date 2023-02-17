@@ -26,5 +26,10 @@ namespace Repositories
         {
             AppDBContext.Set<TEntity>().Remove(entity);
         }
+
+        public List<TEntity> GetAll()
+        {
+            return AppDBContext.Set<TEntity>().Select(x => x).ToList();
+        }
     }
 }

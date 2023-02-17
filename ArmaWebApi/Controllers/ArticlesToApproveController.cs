@@ -11,25 +11,50 @@ namespace ArmaWebApi.Controllers
     [ApiController]
     public class ArticlesToApproveController : ControllerBase
     {
+        private IArticleToApproveService _articleToApproveService;
         private IArticleService _articleService;
 
-        public ArticlesToApproveController(IArticleService articleService)
+        public ArticlesToApproveController(IArticleToApproveService articleToApproveService, IArticleService articleService)
         {
+            _articleToApproveService = articleToApproveService;
             _articleService = articleService;
         }
 
-        // GET api/<ArticlesToApproveController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("article/{id}")]
+        public string GetArticle(int id)
         {
-            return JsonConvert.SerializeObject(_articleService.GetArticleToApprove(id));
+            return JsonConvert.SerializeObject(_articleToApproveService.GetArticleToApprove(id));
         }
 
-        // POST api/<ArticlesToApproveController>
-        [HttpPost]
-        public void Post( ArticleToApprove value)
+        [HttpPost("add")]
+        public void AddArticle( ArticleToApprove value)
         {
-           _articleService.AddArticleToApprove(value);
+            _articleToApproveService.AddArticleToApprove(value);
+        }
+
+        [HttpGet("allarticles")]
+        public string GetAllArticles()
+        {
+            return JsonConvert.SerializeObject(_articleToApproveService.GetAllArticlesToApprove());
+        }
+
+        [HttpPost("approve")]
+        public void ApproveArticle(ArticleId id)
+        {
+            var article = _articleToApproveService.GetArticleToApprove(id.Id);
+
+            var newArticle = new Article { 
+                Title = article.Title,
+                IconUrl = article.IconUrl,
+                ArticleContent = article.ArticleContent,
+                Category = article.Category,
+                AuthorId = article.AuthorId,
+                PublishDate = "today"
+            };
+
+            _articleService.AddArticle(newArticle);
+
+            _articleToApproveService.RemoveArticleToApproveById(id.Id);
         }
     }
 }

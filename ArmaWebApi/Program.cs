@@ -1,7 +1,11 @@
+using DataAccess.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Repositories;
 using Repositories.Abstraction;
 using Repositories.UnitOfWorks;
+using Services;
+using Services.Abstraction;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,13 +26,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 //Add Services and Repositories
 #region Services
-
+builder.Services.AddTransient<IArticleToApproveService, ArticleToApproveService>();
+builder.Services.AddTransient<IArticleService, ArticleService>();
 #endregion
 
 #region Repositories
 builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
 #endregion
-
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

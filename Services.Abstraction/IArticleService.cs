@@ -4,8 +4,10 @@ namespace Services.Abstraction
 {
     public interface IArticleService
     {
-        ArticleToApprove GetArticleToApprove(int id);
+        Article GetArticle(int id);
 
-        void AddArticleToApprove(ArticleToApprove article);
+        void AddArticle(Article article);
+
+        void RemoveArticle(Article article);
     }
 }
