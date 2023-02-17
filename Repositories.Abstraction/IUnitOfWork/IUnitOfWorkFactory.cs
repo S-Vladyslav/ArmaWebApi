@@ -1,6 +1,6 @@
-﻿using DataAccess.UnitOfWorks;
+﻿using Repositories.Abstraction.UnitOfWorks;
 
-namespace DataAccess
+namespace Repositories.Abstraction
 {
     public interface IUnitOfWorkFactory
     {

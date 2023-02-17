@@ -1,7 +1,7 @@
-﻿using DataAccess.Context;
-using DataAccess.Repositories.Abstraction;
+﻿using Repositories.Abstraction;
+using Repositories.Context;
 
-namespace DataAccess.Repositories
+namespace Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
@@ -25,6 +25,11 @@ namespace DataAccess.Repositories
         public void Remove(TEntity entity)
         {
             AppDBContext.Set<TEntity>().Remove(entity);
+        }
+
+        public List<TEntity> GetAll()
+        {
+            return AppDBContext.Set<TEntity>().Select(x => x).ToList();
         }
     }
 }

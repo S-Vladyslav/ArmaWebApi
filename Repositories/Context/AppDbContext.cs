@@ -1,7 +1,7 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Context
+namespace Repositories.Context
 {
     public class AppDBContext : DbContext
     {
@@ -10,8 +10,8 @@ namespace DataAccess.Context
             Database.EnsureCreated();
         }
 
-        DbSet<Article> Articles;
-        DbSet<ArticleToApprove> ArticlesToApprove;
-        DbSet<User> Users;
+        DbSet<Article> Articles { get; set; }
+        DbSet<ArticleToApprove> ArticlesToApprove { get; set; }
+        DbSet<User> Users { get; set; }
     }
 }

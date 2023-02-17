@@ -1,6 +1,4 @@
-﻿using DataAccess.Repositories.Abstraction;
-
-namespace DataAccess.UnitOfWorks
+﻿namespace Repositories.Abstraction.UnitOfWorks
 {
     public interface IUnitOfWork : IDisposable
     {

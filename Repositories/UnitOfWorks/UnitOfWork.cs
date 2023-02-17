@@ -1,8 +1,8 @@
-﻿using DataAccess.Context;
-using DataAccess.Repositories;
-using DataAccess.Repositories.Abstraction;
+﻿using Repositories.Abstraction;
+using Repositories.Abstraction.UnitOfWorks;
+using Repositories.Context;
 
-namespace DataAccess.UnitOfWorks
+namespace Repositories.UnitOfWorks
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -16,6 +16,7 @@ namespace DataAccess.UnitOfWorks
             _appDbContext = appDBContext;
 
             ArticleRepository = new ArticleRepository(_appDbContext);
+            ArticleToApproveRepository = new ArticleToApproveRepository(_appDbContext);
         }
 
         public int Complete()
