@@ -13,12 +13,13 @@ namespace ArmaWebApi.Controllers
         private readonly IUserService _userService;
         private readonly ISessionService _sessionService;
 
-        public UserContoller(IUserService userService)
+        public UserContoller(IUserService userService, ISessionService sessionService)
         {
             _userService = userService;
+            _sessionService = sessionService;
         }
 
-        [HttpGet("id")]
+        [HttpGet("getuser")]
         public UserPublicInformation GetUserById(int id)
         {
             return _userService.GetUserPublicInformationById(id);
@@ -52,6 +53,12 @@ namespace ArmaWebApi.Controllers
             }
 
             return null;
+        }
+
+        [HttpGet("logout")]
+        public void Logout(int id, string token)
+        {
+            _sessionService.CloseSessionByToken(token);
         }
 
         //logout delete token from db

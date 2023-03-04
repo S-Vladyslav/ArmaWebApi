@@ -18,7 +18,7 @@ namespace ArmaWebApi.Controllers
             _articleService = articleService;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("getarticle")]
         public string GetArticleToApprove(int id)
         {
             return JsonConvert.SerializeObject(_articleToApproveService.GetArticleToApprove(id));

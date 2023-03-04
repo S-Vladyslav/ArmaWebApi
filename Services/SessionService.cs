@@ -36,5 +36,28 @@ namespace Services
 
             return token;
         }
+
+        public bool CloseSessionByToken(string token)
+        {
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            {
+                var repo = unitOfWork.SessionRepository;
+
+                var session = repo.GetSessionByToken(token);
+
+                if (session != null)
+                {
+                    repo.Remove(session);
+
+                    unitOfWork.Complete();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
