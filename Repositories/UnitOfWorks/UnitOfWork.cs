@@ -20,6 +20,7 @@ namespace Repositories.UnitOfWorks
             ArticleRepository = new ArticleRepository(_appDbContext);
             ArticleToApproveRepository = new ArticleToApproveRepository(_appDbContext);
             UserRepository  = new UserRepository(_appDbContext);
+            SessionRepository = new SessionRepository(_appDbContext);
         }
 
         public int Complete()

@@ -11,23 +11,67 @@ namespace ArmaWebApi.Controllers
     {
         private readonly IArticleToApproveService _articleToApproveService;
         private readonly IArticleService _articleService;
+        private readonly ISessionService _sessionService;
+        private readonly IUserService _userService;
 
-        public ArticlesToApproveController(IArticleToApproveService articleToApproveService, IArticleService articleService)
+        public ArticlesToApproveController(IArticleToApproveService articleToApproveService, IArticleService articleService, ISessionService sessionService, IUserService userService)
         {
             _articleToApproveService = articleToApproveService;
             _articleService = articleService;
+            _sessionService = sessionService;
+            _userService = userService;
         }
 
         [HttpGet("getarticle")]
-        public string GetArticleToApprove(int id)
+        public IActionResult GetArticleToApprove(int id, string token)
         {
-            return JsonConvert.SerializeObject(_articleToApproveService.GetArticleToApprove(id));
+            try
+            {
+                var session = _sessionService.GetSessionByToken(token);
+                var user = _userService.GetUserById(session.UserId);
+                if (session == null || user == null)
+                {
+                    return StatusCode(401);
+                }
+                else if (user.UserRole < (int)UserRoles.Moderator)
+                {
+                    return StatusCode(403);
+                }
+
+                var content = _articleToApproveService.GetArticleToApprove(id);
+
+                if (content == null)
+                {
+                    return StatusCode(204, $"No article to approve with id {id}");
+                }
+                return StatusCode(200, content);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost("add")]
-        public void AddArticleToApprove(ArticleToApprove value)
+        public IActionResult AddArticleToApprove(ArticleToApprove value, string token)
         {
-            _articleToApproveService.AddArticleToApprove(value);
+            try
+            {
+                var session = _sessionService.GetSessionByToken(token);
+                var user = _userService.GetUserById(session.UserId);
+                if (session == null || user == null)
+                {
+                    return StatusCode(401);
+                }
+
+                _articleToApproveService.AddArticleToApprove(value);
+
+                return StatusCode(200);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("allarticles")]

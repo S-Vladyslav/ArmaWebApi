@@ -59,5 +59,17 @@ namespace Services
 
             return true;
         }
+
+        public Session GetSessionByToken(string token)
+        {
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            {
+                var repo = unitOfWork.SessionRepository;
+
+                var session = repo.GetSessionByToken(token);
+
+                return session;
+            }
+        }
     }
 }

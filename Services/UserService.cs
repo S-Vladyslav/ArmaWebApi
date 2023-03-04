@@ -56,6 +56,18 @@ namespace Services
             }
         }
 
+        public User GetUserById(int id)
+        {
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            {
+                var repo = unitOfWork.UserRepository;
+
+                var user = repo.Get(id);
+
+                return user;
+            }
+        }
+
         public void AddNewUser(User user)
         {
             using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))

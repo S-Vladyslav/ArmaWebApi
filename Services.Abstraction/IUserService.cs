@@ -11,5 +11,7 @@ namespace Services.Abstraction
         void AddNewUser(User user);
 
         User GetUserByEmail(string email);
+
+        User GetUserById(int id);
     }
 }
