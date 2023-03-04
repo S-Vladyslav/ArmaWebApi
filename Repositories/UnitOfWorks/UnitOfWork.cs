@@ -10,6 +10,8 @@ namespace Repositories.UnitOfWorks
 
         public IArticleRepository ArticleRepository { get; private set; }
         public IArticleToApproveRepository ArticleToApproveRepository { get; private set; }
+        public IUserRepository UserRepository { get; private set; }
+        public ISessionRepository SessionRepository { get; private set; }
 
         public UnitOfWork(AppDBContext appDBContext)
         {
@@ -17,6 +19,7 @@ namespace Repositories.UnitOfWorks
 
             ArticleRepository = new ArticleRepository(_appDbContext);
             ArticleToApproveRepository = new ArticleToApproveRepository(_appDbContext);
+            UserRepository  = new UserRepository(_appDbContext);
         }
 
         public int Complete()

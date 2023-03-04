@@ -3,16 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Services.Abstraction;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ArmaWebApi.Controllers
 {
     [Route("api/articletoapprove")]
     [ApiController]
     public class ArticlesToApproveController : ControllerBase
     {
-        private IArticleToApproveService _articleToApproveService;
-        private IArticleService _articleService;
+        private readonly IArticleToApproveService _articleToApproveService;
+        private readonly IArticleService _articleService;
 
         public ArticlesToApproveController(IArticleToApproveService articleToApproveService, IArticleService articleService)
         {
@@ -20,40 +18,46 @@ namespace ArmaWebApi.Controllers
             _articleService = articleService;
         }
 
-        [HttpGet("article/{id}")]
-        public string GetArticle(int id)
+        [HttpGet("{id}")]
+        public string GetArticleToApprove(int id)
         {
             return JsonConvert.SerializeObject(_articleToApproveService.GetArticleToApprove(id));
         }
 
         [HttpPost("add")]
-        public void AddArticle( ArticleToApprove value)
+        public void AddArticleToApprove(ArticleToApprove value)
         {
             _articleToApproveService.AddArticleToApprove(value);
         }
 
         [HttpGet("allarticles")]
-        public string GetAllArticles()
+        public string GetAllArticlesToApprove()
         {
             return JsonConvert.SerializeObject(_articleToApproveService.GetAllArticlesToApprove());
         }
 
         [HttpPost("approve")]
-        public void ApproveArticle(ArticleId id)
+        public void ApproveArticleToApprove(ArticleId id)
         {
             var article = _articleToApproveService.GetArticleToApprove(id.Id);
 
-            var newArticle = new Article { 
+            var newArticle = new Article {
                 Title = article.Title,
                 IconUrl = article.IconUrl,
                 ArticleContent = article.ArticleContent,
                 Category = article.Category,
                 AuthorId = article.AuthorId,
-                PublishDate = "today"
+                PublishDate = DateTime.Today.ToString()
             };
 
             _articleService.AddArticle(newArticle);
 
+            _articleToApproveService.RemoveArticleToApproveById(id.Id);
+        }
+
+        [HttpDelete("reject")]
+        public void RejectArticleToApprove(ArticleId id)
+        {
             _articleToApproveService.RemoveArticleToApproveById(id.Id);
         }
     }

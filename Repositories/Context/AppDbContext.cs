@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories.Context
@@ -13,5 +14,6 @@ namespace Repositories.Context
         DbSet<Article> Articles { get; set; }
         DbSet<ArticleToApprove> ArticlesToApprove { get; set; }
         DbSet<User> Users { get; set; }
+        DbSet<Session> Sessions { get; set; }
     }
 }
