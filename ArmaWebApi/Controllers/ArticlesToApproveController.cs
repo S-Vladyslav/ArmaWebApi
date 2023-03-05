@@ -1,9 +1,6 @@
 ﻿using Domain;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Services.Abstraction;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ArmaWebApi.Controllers
 {
@@ -11,50 +8,167 @@ namespace ArmaWebApi.Controllers
     [ApiController]
     public class ArticlesToApproveController : ControllerBase
     {
-        private IArticleToApproveService _articleToApproveService;
-        private IArticleService _articleService;
+        private readonly IArticleToApproveService _articleToApproveService;
+        private readonly IArticleService _articleService;
+        private readonly ISessionService _sessionService;
+        private readonly IUserService _userService;
 
-        public ArticlesToApproveController(IArticleToApproveService articleToApproveService, IArticleService articleService)
+        public ArticlesToApproveController(IArticleToApproveService articleToApproveService, IArticleService articleService, ISessionService sessionService, IUserService userService)
         {
             _articleToApproveService = articleToApproveService;
             _articleService = articleService;
+            _sessionService = sessionService;
+            _userService = userService;
         }
 
-        [HttpGet("article/{id}")]
-        public string GetArticle(int id)
+        [HttpGet("getarticle")]
+        public IActionResult GetArticleToApprove(int id, string token)
         {
-            return JsonConvert.SerializeObject(_articleToApproveService.GetArticleToApprove(id));
+            try
+            {
+                var session = _sessionService.GetSessionByToken(token);
+                var user = _userService.GetUserById(session.UserId);
+                if (session == null || user == null)
+                {
+                    return StatusCode(401);
+                }
+                else if (user.UserRole < (int)UserRoles.Moderator)
+                {
+                    return StatusCode(403);
+                }
+
+                var article = _articleToApproveService.GetArticleToApprove(id);
+
+                if (article == null)
+                {
+                    return StatusCode(204, $"No article to approve with id {id}");
+                }
+
+                return StatusCode(200, article);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost("add")]
-        public void AddArticle( ArticleToApprove value)
+        public IActionResult AddArticleToApprove(ArticleToApprove value, string token)
         {
-            _articleToApproveService.AddArticleToApprove(value);
+            try
+            {
+                var session = _sessionService.GetSessionByToken(token);
+                var user = _userService.GetUserById(session.UserId);
+                if (session == null || user == null)
+                {
+                    return StatusCode(401);
+                }
+
+                _articleToApproveService.AddArticleToApprove(value);
+
+                return StatusCode(200);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
-        [HttpGet("allarticles")]
-        public string GetAllArticles()
+        [HttpGet("getallarticles")]
+        public IActionResult GetAllArticlesToApprove(string token)
         {
-            return JsonConvert.SerializeObject(_articleToApproveService.GetAllArticlesToApprove());
+            try
+            {
+                var session = _sessionService.GetSessionByToken(token);
+                var user = _userService.GetUserById(session.UserId);
+                if (session == null || user == null)
+                {
+                    return StatusCode(401);
+                }
+                else if (user.UserRole < (int)UserRoles.Moderator)
+                {
+                    return StatusCode(403);
+                }
+
+                var articles = _articleToApproveService.GetAllArticlesToApprove();
+
+                if (articles == null)
+                {
+                    return StatusCode(204, $"No articles to approve");
+                }
+
+                return StatusCode(200, articles);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost("approve")]
-        public void ApproveArticle(ArticleId id)
+        public IActionResult ApproveArticleToApprove(ArticleId id, string token)
         {
-            var article = _articleToApproveService.GetArticleToApprove(id.Id);
+            try
+            {
+                var session = _sessionService.GetSessionByToken(token);
+                var user = _userService.GetUserById(session.UserId);
+                if (session == null || user == null)
+                {
+                    return StatusCode(401);
+                }
+                else if (user.UserRole < (int)UserRoles.Moderator)
+                {
+                    return StatusCode(403);
+                }
 
-            var newArticle = new Article { 
-                Title = article.Title,
-                IconUrl = article.IconUrl,
-                ArticleContent = article.ArticleContent,
-                Category = article.Category,
-                AuthorId = article.AuthorId,
-                PublishDate = "today"
-            };
+                var article = _articleToApproveService.GetArticleToApprove(id.Id);
 
-            _articleService.AddArticle(newArticle);
+                var newArticle = new Article
+                {
+                    Title = article.Title,
+                    IconUrl = article.IconUrl,
+                    ArticleContent = article.ArticleContent,
+                    Category = article.Category,
+                    AuthorId = article.AuthorId,
+                    PublishDate = DateTime.Today.Date.ToString()
+                };
 
-            _articleToApproveService.RemoveArticleToApproveById(id.Id);
+                _articleService.AddArticle(newArticle);
+
+                _articleToApproveService.RemoveArticleToApproveById(id.Id);
+
+                return StatusCode(200);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("reject")]
+        public IActionResult RejectArticleToApprove(ArticleId id, string token)
+        {
+            try
+            {
+                var session = _sessionService.GetSessionByToken(token);
+                var user = _userService.GetUserById(session.UserId);
+                if (session == null || user == null)
+                {
+                    return StatusCode(401);
+                }
+                else if (user.UserRole < (int)UserRoles.Moderator)
+                {
+                    return StatusCode(403);
+                }
+
+                _articleToApproveService.RemoveArticleToApproveById(id.Id);
+
+                return StatusCode(200);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

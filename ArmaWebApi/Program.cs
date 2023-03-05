@@ -1,7 +1,6 @@
 using DataAccess.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Repositories;
 using Repositories.Abstraction;
 using Repositories.UnitOfWorks;
 using Services;
@@ -28,6 +27,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 #region Services
 builder.Services.AddTransient<IArticleToApproveService, ArticleToApproveService>();
 builder.Services.AddTransient<IArticleService, ArticleService>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ISessionService, SessionService>();
 #endregion
 
 #region Repositories

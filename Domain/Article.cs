@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Users;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {
     public class Article
     {
-        [Key]
         public int Id { get; set; }
 
         public string Title { get; set; }
@@ -18,7 +18,5 @@ namespace Domain
         public int AuthorId { get; set; }
 
         public string PublishDate { get; set; }
-
-        public virtual User Author { get; set; }
     }
 }
