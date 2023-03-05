@@ -6,7 +6,7 @@ namespace Services.Abstraction
     {
         string GenerateNewSession(int userId);
 
-        bool CloseSessionByToken(string token);
+        void CloseSession(Session session)
 
         Session GetSessionByToken(string token);
     }

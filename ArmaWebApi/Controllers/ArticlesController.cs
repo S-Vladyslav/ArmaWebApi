@@ -9,16 +9,32 @@ namespace ArmaWebApi.Controllers
     public class ArticlesController : ControllerBase
     {
         private readonly IArticleService _articleService;
+        private readonly ISessionService _sessionService;
 
-        public ArticlesController(IArticleService articleService)
+        public ArticlesController(IArticleService articleService, ISessionService sessionService)
         {
             _articleService = articleService;
+            _sessionService = sessionService;
         }
 
         [HttpGet("getarticle")]
-        public Article GetArticleById(int id)
+        public IActionResult GetArticleById(int id)
         {
-            return _articleService.GetArticle(id);
+            try
+            {
+                var article = _articleService.GetArticle(id);
+
+                if (article == null)
+                {
+                    return StatusCode(204, $"No article with id {id}");
+                }
+
+                return StatusCode(200, article);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

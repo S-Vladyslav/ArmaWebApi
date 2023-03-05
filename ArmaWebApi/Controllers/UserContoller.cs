@@ -20,48 +20,92 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpGet("getuser")]
-        public UserPublicInformation GetUserById(int id)
+        public IActionResult GetUserById(int id)
         {
-            return _userService.GetUserPublicInformationById(id);
+            try
+            {
+                var userInfo = _userService.GetUserPublicInformationById(id);
+
+                return StatusCode(200, userInfo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost("register")]
-        public void RegisterUser(UserRegister userRegister)
+        public IActionResult RegisterUser(UserRegister userRegister)
         {
-            var user = new User
+            try
             {
-                UserName = userRegister.UserName,
-                Email = userRegister.Email,
-                HashedPassword = HashPassword(userRegister.Password),
-                UserRole = 1,
-                CreationDate = DateTime.Today.ToString()
-            };
+                var user = new User
+                {
+                    UserName = userRegister.UserName,
+                    Email = userRegister.Email,
+                    HashedPassword = HashPassword(userRegister.Password),
+                    UserRole = 1,
+                    CreationDate = DateTime.Today.Date.ToString()
+                };
 
-            _userService.AddNewUser(user);
+                _userService.AddNewUser(user);
+
+                return StatusCode(200);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost("login")]
-        public string Login(UserLogin userLogin)
+        public IActionResult Login(UserLogin userLogin)
         {
-            var user = _userService.GetUserByEmail(userLogin.Email);
-            // check if user exist in db
-            if (String.Equals(HashPassword(userLogin.Password), user.HashedPassword))
-            {
+            try 
+            { 
+                var user = _userService.GetUserByEmail(userLogin.Email);
+
+                if (user == null)
+                {
+                    return StatusCode(204, "User doesn't exist");
+                }
+                
+                if (!String.Equals(HashPassword(userLogin.Password), user.HashedPassword))
+                {
+                    return StatusCode(401, "Incorrect password");
+                }
+
                 var token = _sessionService.GenerateNewSession(user.Id);
 
-                return token;
+                return StatusCode(200, token);
             }
-
-            return null;
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("logout")]
-        public void Logout(int id, string token)
+        public IActionResult Logout(int id, string token)
         {
-            _sessionService.CloseSessionByToken(token);
-        }
+            try
+            {
+                var session = _sessionService.GetSessionByToken(token);
 
-        //logout delete token from db
+                if (session == null)
+                {
+                    return StatusCode(204, "No session was found");
+                }
+
+                _sessionService.CloseSession(session);
+
+                return StatusCode(200);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         private string HashPassword(string password)
         {

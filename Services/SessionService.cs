@@ -37,27 +37,16 @@ namespace Services
             return token;
         }
 
-        public bool CloseSessionByToken(string token)
+        public void CloseSession(Session session)
         {
             using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
             {
                 var repo = unitOfWork.SessionRepository;
 
-                var session = repo.GetSessionByToken(token);
+                repo.Remove(session);
 
-                if (session != null)
-                {
-                    repo.Remove(session);
-
-                    unitOfWork.Complete();
-                }
-                else
-                {
-                    return false;
-                }
+                unitOfWork.Complete();
             }
-
-            return true;
         }
 
         public Session GetSessionByToken(string token)
