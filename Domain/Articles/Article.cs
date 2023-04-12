@@ -1,12 +1,10 @@
 ﻿using Domain.Users;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain
+namespace Domain.Articles
 {
-    public class Article
+    public class Article : BaseEntity
     {
-        public int Id { get; set; }
-
         public string Title { get; set; }
 
         public string IconUrl { get; set; }

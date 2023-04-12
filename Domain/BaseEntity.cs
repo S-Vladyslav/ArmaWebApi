@@ -1,6 +1,6 @@
 ﻿namespace Domain
 {
-    public class ArticleId
+    public class BaseEntity
     {
         public int Id { get; set; }
     }

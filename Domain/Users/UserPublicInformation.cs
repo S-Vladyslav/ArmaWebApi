@@ -1,9 +1,7 @@
 ﻿namespace Domain.Users
 {
-    public class UserPublicInformation
+    public class UserPublicInformation : BaseEntity
     {
-        public int Id { get; set; }
-
         public string UserName { get; set; }
 
         public int UserRole { get; set; }

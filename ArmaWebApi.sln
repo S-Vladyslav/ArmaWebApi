@@ -7,13 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmaWebApi", "ArmaWebApi\Ar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{FC09A18B-2C78-4DD2-B811-1D83EC605FB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{F769D211-0599-4AB4-B625-B4C6C6C34F27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{F769D211-0599-4AB4-B625-B4C6C6C34F27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{D08CF427-C897-46E1-B64A-ABB857FDB30A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{D08CF427-C897-46E1-B64A-ABB857FDB30A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Abstraction", "Services.Abstraction\Services.Abstraction.csproj", "{E4C31F13-1538-4A65-956A-D3E75829DDA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Abstraction", "Services.Abstraction\Services.Abstraction.csproj", "{E4C31F13-1538-4A65-956A-D3E75829DDA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories.Abstraction", "Repositories.Abstraction\Repositories.Abstraction.csproj", "{C2365810-021C-46DD-9CE3-F7AB89695397}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories.Abstraction", "Repositories.Abstraction\Repositories.Abstraction.csproj", "{C2365810-021C-46DD-9CE3-F7AB89695397}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration", "Configuration\Configuration.csproj", "{EF607FEF-1198-4AFB-8808-FBFEA644B843}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{C2365810-021C-46DD-9CE3-F7AB89695397}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2365810-021C-46DD-9CE3-F7AB89695397}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2365810-021C-46DD-9CE3-F7AB89695397}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF607FEF-1198-4AFB-8808-FBFEA644B843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF607FEF-1198-4AFB-8808-FBFEA644B843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF607FEF-1198-4AFB-8808-FBFEA644B843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF607FEF-1198-4AFB-8808-FBFEA644B843}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

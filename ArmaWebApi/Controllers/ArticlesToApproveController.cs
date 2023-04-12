@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.Articles;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 
@@ -75,7 +76,7 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpGet("getallarticles")]
-        public IActionResult GetAllArticlesToApprove(string token)
+        public IActionResult GetAllArticlesToApprove(string token, int start = 0, int count = 5)
         {
             try
             {
@@ -90,14 +91,14 @@ namespace ArmaWebApi.Controllers
                     return StatusCode(403);
                 }
 
-                var articles = _articleToApproveService.GetAllArticlesToApprove();
+                var article = _articleService.GetArticles(count, start);
 
-                if (articles == null)
+                if (article == null)
                 {
                     return StatusCode(204, $"No articles to approve");
                 }
 
-                return StatusCode(200, articles);
+                return StatusCode(200, article);
             }
             catch (Exception ex)
             {

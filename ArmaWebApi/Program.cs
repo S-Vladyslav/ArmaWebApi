@@ -58,3 +58,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+//https://damienaicheh.github.io/azure/azure-functions/dotnet/2022/05/10/use-settings-json-azure-function-en.html

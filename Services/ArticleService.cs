@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Domain.Articles;
 using Repositories.Abstraction;
 using Services.Abstraction;
 
@@ -24,6 +24,18 @@ namespace Services
                 var article = repo.Get(id);
 
                 return article;
+            }
+        }
+
+        public List<Article> GetArticles(int pageSize, int start)
+        {
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            {
+                var repo = unitOfWork.ArticleRepository;
+
+                var articles = repo.GetPage(pageSize, start);
+
+                return articles;
             }
         }
 

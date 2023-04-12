@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Domain.Articles;
 
 namespace Services.Abstraction
 {
@@ -9,5 +9,7 @@ namespace Services.Abstraction
         void AddArticle(Article article);
 
         void RemoveArticle(Article article);
+
+        List<Article> GetArticles(int pageSize, int start);
     }
 }

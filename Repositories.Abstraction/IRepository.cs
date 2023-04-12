@@ -9,5 +9,7 @@
         void Remove(TEntity entity);
 
         List<TEntity> GetAll();
+
+        List<TEntity> GetPage(int pageSize, int start);
     }
 }

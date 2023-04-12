@@ -1,9 +1,10 @@
-﻿using Repositories.Abstraction;
+﻿using Domain;
+using Repositories.Abstraction;
 using Repositories.Context;
 
 namespace Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
         protected readonly AppDBContext AppDBContext;
 
@@ -30,6 +31,19 @@ namespace Repositories
         public List<TEntity> GetAll()
         {
             return AppDBContext.Set<TEntity>().Select(x => x).ToList();
+        }
+        /// <summary>
+        /// хуй зфлупа хуй зфлупа 
+        /// </summary>
+        /// <param name="pageSize">бла бла </param>
+        /// <param name="start"></param>
+        /// <returns>фффффффффффффффф</returns>
+        public List<TEntity> GetPage(int pageSize, int start)
+        {
+            return AppDBContext.Set<TEntity>()
+                .Skip(start)
+                .Take(pageSize)
+                .ToList();
         }
     }
 }

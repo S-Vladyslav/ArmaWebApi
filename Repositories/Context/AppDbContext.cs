@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.Articles;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
