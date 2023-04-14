@@ -1,4 +1,5 @@
-﻿using Domain.Users;
+﻿using Configuration;
+using Domain.Users;
 using Repositories.Abstraction;
 using Services.Abstraction;
 
@@ -7,17 +8,17 @@ namespace Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
+        private readonly ICustomConfigurationManager _configurationManager;
 
-        public UserService(IUnitOfWorkFactory unitOfWorkFactory)
+        public UserService(IUnitOfWorkFactory unitOfWorkFactory, ICustomConfigurationManager configurationManager)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
+            _configurationManager = configurationManager;
         }
-
-        private string _connectionString = "Data Source=localhost;Initial Catalog=ArmaGuidesDev;Integrated Security=True;Trust Server Certificate=true";
 
         public UserPrivateInformation GetUserPrivateInformationById(int id)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.UserRepository;
 
@@ -38,7 +39,7 @@ namespace Services
 
         public UserPublicInformation GetUserPublicInformationById(int id)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.UserRepository;
 
@@ -58,7 +59,7 @@ namespace Services
 
         public User GetUserById(int id)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.UserRepository;
 
@@ -70,7 +71,7 @@ namespace Services
 
         public void AddNewUser(User user)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.UserRepository;
 
@@ -82,7 +83,7 @@ namespace Services
 
         public User GetUserByEmail(string email)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.UserRepository;
 

@@ -1,5 +1,4 @@
-﻿using Domain;
-using Domain.Articles;
+﻿using Domain.Articles;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 
