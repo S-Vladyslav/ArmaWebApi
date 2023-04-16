@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Configuration;
+using Domain;
 using Repositories.Abstraction;
 using Services.Abstraction;
 
@@ -7,19 +8,19 @@ namespace Services
     public class SessionService : ISessionService
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
+        private readonly ICustomConfigurationManager _configurationManager;
 
-        public SessionService(IUnitOfWorkFactory unitOfWorkFactory)
+        public SessionService(IUnitOfWorkFactory unitOfWorkFactory, ICustomConfigurationManager configurationManager)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
+            _configurationManager = configurationManager;
         }
-
-        private string _connectionString = "Data Source=localhost;Initial Catalog=ArmaGuidesDev;Integrated Security=True;Trust Server Certificate=true";
 
         public string GenerateNewSession(int userId)
         {
             var token = Guid.NewGuid().ToString();
 
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.SessionRepository;
 
@@ -39,7 +40,7 @@ namespace Services
 
         public void CloseSession(Session session)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.SessionRepository;
 
@@ -51,7 +52,7 @@ namespace Services
 
         public Session GetSessionByToken(string token)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.SessionRepository;
 

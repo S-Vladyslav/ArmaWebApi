@@ -1,10 +1,10 @@
-﻿using Domain;
+﻿using Domain.Articles;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 
 namespace ArmaWebApi.Controllers
 {
-    [Route("api/articles")]
+    [Route("api/article")]
     [ApiController]
     public class ArticlesController : ControllerBase
     {
@@ -30,6 +30,37 @@ namespace ArmaWebApi.Controllers
                 }
 
                 return StatusCode(200, article);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("getarticles")]
+        public IActionResult GetArticles(int start = 0, int count = 10)
+        {
+            try
+            {
+                var articles = _articleService.GetArticles(count, start);
+
+                if (articles == null)
+                {
+                    return StatusCode(204, $"No articles");
+                }
+
+                var articlesPreview = new List<ArticlePreview>();
+                foreach (var article in articles)
+                {
+                    articlesPreview.Add(new ArticlePreview
+                    {
+                        Id = article.Id,
+                        Title = article.Title,
+                        IconUrl = article.IconUrl
+                    });
+                }
+
+                return StatusCode(200, articlesPreview);
             }
             catch (Exception ex)
             {

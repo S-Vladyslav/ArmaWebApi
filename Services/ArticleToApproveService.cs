@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Configuration;
+using Domain;
 using Repositories.Abstraction;
 using Services.Abstraction;
 
@@ -7,17 +8,17 @@ namespace DataAccess.Services
     public class ArticleToApproveService : IArticleToApproveService
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
+        private readonly ICustomConfigurationManager _configurationManager;
 
-        public ArticleToApproveService(IUnitOfWorkFactory unitOfWorkFactory)
+        public ArticleToApproveService(IUnitOfWorkFactory unitOfWorkFactory, ICustomConfigurationManager configurationManager)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
+            this._configurationManager = configurationManager;
         }
-
-        private string _connectionString = "Data Source=localhost;Initial Catalog=ArmaGuidesDev;Integrated Security=True;Trust Server Certificate=true";
 
         public void AddArticleToApprove(ArticleToApprove article)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.ArticleToApproveRepository;
 
@@ -29,7 +30,7 @@ namespace DataAccess.Services
 
         public ArticleToApprove GetArticleToApprove(int id)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.ArticleToApproveRepository;
 
@@ -41,7 +42,7 @@ namespace DataAccess.Services
 
         public List<ArticleToApprove> GetAllArticlesToApprove()
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.ArticleToApproveRepository;
 
@@ -53,7 +54,7 @@ namespace DataAccess.Services
 
         public void RemoveArticleToApprove(ArticleToApprove article)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.ArticleToApproveRepository;
 
@@ -65,7 +66,7 @@ namespace DataAccess.Services
 
         public void RemoveArticleToApproveById(int id)
         {
-            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_connectionString))
+            using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.ArticleToApproveRepository;
 

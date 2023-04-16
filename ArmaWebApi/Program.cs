@@ -6,22 +6,17 @@ using Repositories.UnitOfWorks;
 using Services;
 using Services.Abstraction;
 using System.Text;
+using Microsoft.Extensions.Configuration;
+using Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
-    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = "https://localhost:7228",//Configuration["Jwt:Issuer"],
-        ValidAudience = "https://localhost:7228",//Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("asda"))//Configuration["Jwt:Key"]))
-    };
-});
+// Add configuration
+var configuration = builder.Configuration;
+configuration.AddJsonFile("appsettings.json");
+
+var configurationManager = new CustomConfigurationManager(configuration);
+builder.Services.AddSingleton<ICustomConfigurationManager>(configurationManager);
 
 //Add Services and Repositories
 #region Services
@@ -58,3 +53,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+//https://damienaicheh.github.io/azure/azure-functions/dotnet/2022/05/10/use-settings-json-azure-function-en.html
