@@ -2,9 +2,9 @@
 {
     public interface IRepository <TEntity> where TEntity : class
     {
-        TEntity Get(int id);
+        Task<TEntity> GetAsync(int id);
 
-        void Add(TEntity entity);
+        Task AddAsync(TEntity entity);
 
         void Remove(TEntity entity);
 

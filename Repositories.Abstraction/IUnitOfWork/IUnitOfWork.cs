@@ -8,5 +8,7 @@
         ISessionRepository SessionRepository { get; }
 
         int Complete();
+
+        Task<int> CompleteAsync();
     }
 }

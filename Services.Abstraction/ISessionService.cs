@@ -4,9 +4,9 @@ namespace Services.Abstraction
 {
     public interface ISessionService
     {
-        string GenerateNewSession(int userId);
+        Task<string> GenerateNewSessionAsync(int userId);
 
-        void CloseSession(Session session);
+        Task CloseSessionAsync(Session session);
 
         Session GetSessionByToken(string token);
     }

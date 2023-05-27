@@ -23,12 +23,12 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpGet("getarticle")]
-        public IActionResult GetArticleToApprove(int id, string token)
+        public async Task<IActionResult> GetArticleToApprove(int id, string token)
         {
             try
             {
                 var session = _sessionService.GetSessionByToken(token);
-                var user = _userService.GetUserById(session.UserId);
+                var user = await _userService.GetUserByIdAsync(session.UserId);
                 if (session == null || user == null)
                 {
                     return StatusCode(401);
@@ -38,7 +38,7 @@ namespace ArmaWebApi.Controllers
                     return StatusCode(403);
                 }
 
-                var article = _articleToApproveService.GetArticleToApprove(id);
+                var article = await _articleToApproveService.GetArticleToApproveAsync(id);
 
                 if (article == null)
                 {
@@ -54,18 +54,18 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult AddArticleToApprove(ArticleToApprove value, string token)
+        public async Task<IActionResult> AddArticleToApprove(ArticleToApprove value, string token)
         {
             try
             {
                 var session = _sessionService.GetSessionByToken(token);
-                var user = _userService.GetUserById(session.UserId);
+                var user = await _userService.GetUserByIdAsync(session.UserId);
                 if (session == null || user == null)
                 {
                     return StatusCode(401);
                 }
 
-                _articleToApproveService.AddArticleToApprove(value);
+                await _articleToApproveService.AddArticleToApproveAsync(value);
 
                 return StatusCode(200);
             }
@@ -76,12 +76,12 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpGet("getallarticles")]
-        public IActionResult GetAllArticlesToApprove(string token, int start = 0, int count = 5)
+        public async Task<IActionResult> GetAllArticlesToApprove(string token, int start = 0, int count = 5)
         {
             try
             {
                 var session = _sessionService.GetSessionByToken(token);
-                var user = _userService.GetUserById(session.UserId);
+                var user = await _userService.GetUserByIdAsync(session.UserId);
                 if (session == null || user == null)
                 {
                     return StatusCode(401);
@@ -107,12 +107,12 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpPost("approve")]
-        public IActionResult ApproveArticleToApprove(ArticleId id, string token)
+        public async Task<IActionResult> ApproveArticleToApprove(ArticleId id, string token)
         {
             try
             {
                 var session = _sessionService.GetSessionByToken(token);
-                var user = _userService.GetUserById(session.UserId);
+                var user = await _userService.GetUserByIdAsync(session.UserId);
                 if (session == null || user == null)
                 {
                     return StatusCode(401);
@@ -122,7 +122,7 @@ namespace ArmaWebApi.Controllers
                     return StatusCode(403);
                 }
 
-                var article = _articleToApproveService.GetArticleToApprove(id.Id);
+                var article = await _articleToApproveService.GetArticleToApproveAsync(id.Id);
 
                 var newArticle = new Article
                 {
@@ -134,9 +134,9 @@ namespace ArmaWebApi.Controllers
                     PublishDate = DateTime.Today.Date.ToString()
                 };
 
-                _articleService.AddArticle(newArticle);
+                await _articleService.AddArticleAsync(newArticle);
 
-                _articleToApproveService.RemoveArticleToApproveById(id.Id);
+                await _articleToApproveService.RemoveArticleToApproveByIdAsync(id.Id);
 
                 return StatusCode(200);
             }
@@ -147,12 +147,12 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpDelete("reject")]
-        public IActionResult RejectArticleToApprove(ArticleId id, string token)
+        public async Task<IActionResult> RejectArticleToApprove(ArticleId id, string token)
         {
             try
             {
                 var session = _sessionService.GetSessionByToken(token);
-                var user = _userService.GetUserById(session.UserId);
+                var user = await _userService.GetUserByIdAsync(session.UserId);
                 if (session == null || user == null)
                 {
                     return StatusCode(401);
@@ -162,7 +162,7 @@ namespace ArmaWebApi.Controllers
                     return StatusCode(403);
                 }
 
-                _articleToApproveService.RemoveArticleToApproveById(id.Id);
+                await _articleToApproveService.RemoveArticleToApproveByIdAsync(id.Id);
 
                 return StatusCode(200);
             }

@@ -20,11 +20,11 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpGet("getuser")]
-        public IActionResult GetUserById(int id)
+        public async Task<IActionResult> GetUserById(int id)
         {
             try
             {
-                var userInfo = _userService.GetUserPublicInformationById(id);
+                var userInfo = await _userService.GetUserPublicInformationByIdAsync(id);
 
                 return StatusCode(200, userInfo);
             }
@@ -35,7 +35,7 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult RegisterUser(UserRegister userRegister)
+        public async Task<IActionResult> RegisterUser(UserRegister userRegister)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace ArmaWebApi.Controllers
                     CreationDate = DateTime.Today.Date.ToString()
                 };
 
-                _userService.AddNewUser(user);
+                await _userService.AddNewUserAsync(user);
 
                 return StatusCode(200);
             }
@@ -59,7 +59,7 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(UserLogin userLogin)
+        public async Task<IActionResult> Login(UserLogin userLogin)
         {
             try 
             { 
@@ -75,7 +75,7 @@ namespace ArmaWebApi.Controllers
                     return StatusCode(401, "Incorrect password");
                 }
 
-                var token = _sessionService.GenerateNewSession(user.Id);
+                var token = await _sessionService.GenerateNewSessionAsync(user.Id);
 
                 return StatusCode(200, token);
             }
@@ -86,7 +86,7 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpGet("logout")]
-        public IActionResult Logout(int id, string token)
+        public async Task<IActionResult> Logout(int id, string token)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace ArmaWebApi.Controllers
                     return StatusCode(204, "No session was found");
                 }
 
-                _sessionService.CloseSession(session);
+                await _sessionService.CloseSessionAsync(session);
 
                 return StatusCode(200);
             }

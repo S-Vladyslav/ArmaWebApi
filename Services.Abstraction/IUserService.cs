@@ -4,14 +4,14 @@ namespace Services.Abstraction
 {
     public interface IUserService
     {
-        UserPrivateInformation GetUserPrivateInformationById(int id);
+        Task<UserPrivateInformation> GetUserPrivateInformationByIdAsync(int id);
 
-        UserPublicInformation GetUserPublicInformationById(int id);
+        Task<UserPublicInformation> GetUserPublicInformationByIdAsync(int id);
 
-        void AddNewUser(User user);
+        Task AddNewUserAsync(User user);
 
         User GetUserByEmail(string email);
 
-        User GetUserById(int id);
+        Task<User> GetUserByIdAsync(int id);
     }
 }

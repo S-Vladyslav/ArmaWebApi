@@ -13,14 +13,14 @@ namespace Repositories
             AppDBContext = appDBContext;
         }
 
-        public TEntity Get(int id)
+        public async Task<TEntity> GetAsync(int id)
         {
-            return AppDBContext.Set<TEntity>().Find(id);
+            return await AppDBContext.Set<TEntity>().FindAsync(id);
         }
 
-        public void Add(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
-            AppDBContext.Set<TEntity>().Add(entity);
+            await AppDBContext.Set<TEntity>().AddAsync(entity);
         }
 
         public void Remove(TEntity entity)
@@ -32,12 +32,7 @@ namespace Repositories
         {
             return AppDBContext.Set<TEntity>().Select(x => x).ToList();
         }
-        /// <summary>
-        /// хуй зфлупа хуй зфлупа 
-        /// </summary>
-        /// <param name="pageSize">бла бла </param>
-        /// <param name="start"></param>
-        /// <returns>фффффффффффффффф</returns>
+
         public List<TEntity> GetPage(int pageSize, int start)
         {
             return AppDBContext.Set<TEntity>()

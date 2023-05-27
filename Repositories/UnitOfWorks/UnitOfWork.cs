@@ -32,5 +32,10 @@ namespace Repositories.UnitOfWorks
         {
             _appDbContext.Dispose();
         }
+
+        public async Task<int> CompleteAsync()
+        {
+            return await _appDbContext.SaveChangesAsync();
+        }
     }
 }

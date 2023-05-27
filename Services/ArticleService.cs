@@ -16,13 +16,13 @@ namespace Services
             this._configurationManager = configurationManager;
         }
 
-        public Article GetArticle(int id)
+        public async Task<Article> GetArticleAsync(int id)
         {
             using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.ArticleRepository;
 
-                var article = repo.Get(id);
+                var article = await repo.GetAsync(id);
 
                 return article;
             }
@@ -40,19 +40,19 @@ namespace Services
             }
         }
 
-        public void AddArticle(Article article)
+        public async Task AddArticleAsync(Article article)
         {
             using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.ArticleRepository;
 
-                repo.Add(article);
+                await repo.AddAsync(article);
 
-                var complete = unitOfWork.Complete();
+                var complete = await unitOfWork.CompleteAsync();
             }
         }
 
-        public void RemoveArticle(Article article)
+        public async Task RemoveArticleAsync(Article article)
         {
             using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
@@ -60,7 +60,7 @@ namespace Services
 
                 repo.Remove(article);
 
-                var complete = unitOfWork.Complete();
+                var complete = await unitOfWork.CompleteAsync();
             }
         }
     }
