@@ -4,11 +4,11 @@ namespace Services.Abstraction
 {
     public interface IArticleService
     {
-        Article GetArticle(int id);
+        Task<Article> GetArticleAsync(int id);
 
-        void AddArticle(Article article);
+        Task AddArticleAsync(Article article);
 
-        void RemoveArticle(Article article);
+        Task RemoveArticleAsync(Article article);
 
         List<Article> GetArticles(int pageSize, int start);
     }

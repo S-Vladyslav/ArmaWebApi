@@ -4,14 +4,14 @@ namespace Services.Abstraction
 {
     public interface IArticleToApproveService
     {
-        ArticleToApprove GetArticleToApprove(int id);
+        Task <ArticleToApprove> GetArticleToApproveAsync(int id);
 
-        void AddArticleToApprove(ArticleToApprove article);
+        Task AddArticleToApproveAsync(ArticleToApprove article);
 
         List<ArticleToApprove> GetAllArticlesToApprove();
 
-        void RemoveArticleToApproveById(int id);
+        Task RemoveArticleToApproveByIdAsync(int id);
 
-        void RemoveArticleToApprove(ArticleToApprove article);
+        Task RemoveArticleToApproveAsync(ArticleToApprove article);
     }
 }

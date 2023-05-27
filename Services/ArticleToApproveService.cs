@@ -16,25 +16,25 @@ namespace DataAccess.Services
             this._configurationManager = configurationManager;
         }
 
-        public void AddArticleToApprove(ArticleToApprove article)
+        public async Task AddArticleToApproveAsync(ArticleToApprove article)
         {
             using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.ArticleToApproveRepository;
 
-                repo.Add(article);
+                await repo.AddAsync(article);
 
-                var complete = unitOfWork.Complete();
+                var complete = await unitOfWork.CompleteAsync();
             }
         }
 
-        public ArticleToApprove GetArticleToApprove(int id)
+        public async Task<ArticleToApprove> GetArticleToApproveAsync(int id)
         {
             using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.ArticleToApproveRepository;
 
-                var entity = repo.Get(id);
+                var entity = await repo.GetAsync(id);
 
                 return entity;
             }
@@ -52,7 +52,7 @@ namespace DataAccess.Services
             }
         }
 
-        public void RemoveArticleToApprove(ArticleToApprove article)
+        public async Task RemoveArticleToApproveAsync(ArticleToApprove article)
         {
             using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
@@ -60,21 +60,21 @@ namespace DataAccess.Services
 
                 repo.Remove(article);
 
-                var complete = unitOfWork.Complete();
+                var complete = await unitOfWork.CompleteAsync();
             }
         }
 
-        public void RemoveArticleToApproveById(int id)
+        public async Task RemoveArticleToApproveByIdAsync(int id)
         {
             using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
                 var repo = unitOfWork.ArticleToApproveRepository;
 
-                var article = repo.Get(id);
+                var article = await repo.GetAsync(id);
 
                 repo.Remove(article);
 
-                var complete = unitOfWork.Complete();
+                var complete = await unitOfWork.CompleteAsync();
             }
         }
     }

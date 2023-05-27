@@ -18,11 +18,11 @@ namespace ArmaWebApi.Controllers
         }
 
         [HttpGet("getarticle")]
-        public IActionResult GetArticleById(int id)
+        public async Task<IActionResult> GetArticleById(int id)
         {
             try
             {
-                var article = _articleService.GetArticle(id);
+                var article = await _articleService.GetArticleAsync(id);
 
                 if (article == null)
                 {

@@ -16,7 +16,7 @@ namespace Services
             _configurationManager = configurationManager;
         }
 
-        public string GenerateNewSession(int userId)
+        public async Task<string> GenerateNewSessionAsync(int userId)
         {
             var token = Guid.NewGuid().ToString();
 
@@ -30,15 +30,15 @@ namespace Services
                     Token = token
                 };
 
-                repo.Add(newSession);
+                await repo.AddAsync(newSession);
 
-                unitOfWork.Complete();
+                await unitOfWork.CompleteAsync();
             }
 
             return token;
         }
 
-        public void CloseSession(Session session)
+        public async Task CloseSessionAsync(Session session)
         {
             using (var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(_configurationManager.DBConnectionString))
             {
@@ -46,7 +46,7 @@ namespace Services
 
                 repo.Remove(session);
 
-                unitOfWork.Complete();
+                await unitOfWork.CompleteAsync();
             }
         }
 
